@@ -110,6 +110,13 @@ async function run() {
       );
       res.json(result);
     });
+
+    app.delete("/biodatas/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await biodatasCollection.deleteOne(query);
+      res.json(result);
+    });
   } finally {
     // await client.close();
   }
