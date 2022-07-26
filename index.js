@@ -85,6 +85,19 @@ async function run() {
       res.json(result);
     });
 
+    app.put("/biodatas/:id", async (req, res) => {
+      const id = req.params.id;
+      const status = req.body.status;
+      const filter = { _id: ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status,
+        },
+      };
+      const result = await biodatasCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
     app.put("/biodatas", async (req, res) => {
       const biodata = req.body;
       const filter = { email: biodata.email };
