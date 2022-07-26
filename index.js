@@ -25,12 +25,23 @@ async function run() {
     const database = client.db("bioData");
     const biodatasCollection = database.collection("biodatas");
     const usersCollection = database.collection("users");
+    const contactCollection = database.collection("contactRequest");
+    const feedbackCollection = database.collection("feedback");
 
-    app.get("/users", async (req, res) => {
-      const cursor = usersCollection.find({});
-      const result = await cursor.toArray();
-      res.send(result);
+    app.get("/biodatas/biodata/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const biodata = await biodatasCollection.findOne(query);
+      res.json(biodata);
     });
+
+    app.get("/biodatas/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const biodata = await biodatasCollection.findOne(query);
+      res.json(biodata);
+    });
+
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
@@ -38,9 +49,52 @@ async function run() {
       res.json(user);
     });
 
+    app.get("/users", async (req, res) => {
+      const cursor = usersCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.get("/biodatas", async (req, res) => {
+      const cursor = biodatasCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
+      res.json(result);
+    });
+
+    app.post("/biodatas", async (req, res) => {
+      const biodata = req.body;
+      const result = await biodatasCollection.insertOne(biodata);
+      res.json(result);
+    });
+
+    app.post("/contactRequest", async (req, res) => {
+      const contactdata = req.body;
+      const result = await contactCollection.insertOne(contactdata);
+      res.json(result);
+    });
+
+    app.post("/feedback", async (req, res) => {
+      const feedbackdata = req.body;
+      const result = await feedbackCollection.insertOne(feedbackdata);
+      res.json(result);
+    });
+
+    app.put("/biodatas", async (req, res) => {
+      const biodata = req.body;
+      const filter = { email: biodata.email };
+      const options = { upsert: true };
+      const updateDoc = { $set: biodata };
+      const result = await biodatasCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
       res.json(result);
     });
   } finally {
