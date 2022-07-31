@@ -49,6 +49,17 @@ async function run() {
       res.json(user);
     });
 
+    app.get("/users/admin/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const user = await usersCollection.findOne(query);
+      let isAdmin = false;
+      if (user?.role === "admin") {
+        isAdmin = true;
+      }
+      res.json({ admin: isAdmin });
+    });
+
     app.get("/users", async (req, res) => {
       const cursor = usersCollection.find({});
       const result = await cursor.toArray();
