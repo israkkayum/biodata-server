@@ -72,6 +72,12 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/paymentList", async (req, res) => {
+      const cursor = contactCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
