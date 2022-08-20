@@ -123,11 +123,11 @@ async function run() {
 
     app.put("/biodatas/admin/:id", async (req, res) => {
       const id = req.params.id;
-      const status = req.body.status;
+      const adminStatus = req.body.adminStatus;
       const filter = { _id: ObjectId(id) };
       const updateDoc = {
         $set: {
-          status,
+          adminStatus,
         },
       };
       const result = await biodatasCollection.updateOne(filter, updateDoc);
