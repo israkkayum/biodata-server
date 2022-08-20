@@ -147,6 +147,14 @@ async function run() {
       res.json(result);
     });
 
+    app.put("/users/admin", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateDoc = { $set: { role: "admin" } };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.json(result);
+    });
+
     app.delete("/biodatas/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
