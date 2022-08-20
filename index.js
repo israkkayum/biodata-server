@@ -78,6 +78,12 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/feedback", async (req, res) => {
+      const cursor = feedbackCollection.find({});
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       const result = await usersCollection.insertOne(user);
