@@ -183,6 +183,13 @@ async function run() {
       res.json(result);
     });
 
+    app.delete("/feedback/remove/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await feedbackCollection.deleteOne(query);
+      res.json(result);
+    });
+
     app.delete("/paymentList/remove/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
