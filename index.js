@@ -72,6 +72,28 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/publicbiodatas", async (req, res) => {
+      const cursor = biodatasCollection.find({});
+      const page = req.query.page;
+      const size = parseInt(req.query.size);
+      let biodatas;
+      const count = await biodatasCollection.countDocuments();
+
+      if (page) {
+        biodatas = await cursor
+          .skip(page * size)
+          .limit(size)
+          .toArray();
+      } else {
+        biodatas = await cursor.toArray();
+      }
+
+      res.send({
+        count,
+        biodatas,
+      });
+    });
+
     app.get("/paymentList", async (req, res) => {
       const cursor = contactCollection.find({});
       const result = await cursor.toArray();
