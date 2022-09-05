@@ -67,13 +67,13 @@ async function run() {
     });
 
     app.get("/biodatas", async (req, res) => {
-      const cursor = biodatasCollection.find({});
+      const cursor = biodatasCollection.find().sort({ _id: -1 });
       const result = await cursor.toArray();
       res.send(result);
     });
 
     app.get("/publicbiodatas", async (req, res) => {
-      const cursor = biodatasCollection.find({});
+      const cursor = biodatasCollection.find().sort({ _id: -1 });
       const page = req.query.page;
       const size = parseInt(req.query.size);
       let biodatas;
@@ -95,13 +95,13 @@ async function run() {
     });
 
     app.get("/paymentList", async (req, res) => {
-      const cursor = contactCollection.find({});
+      const cursor = contactCollection.find().sort({ _id: -1 });
       const result = await cursor.toArray();
       res.send(result);
     });
 
     app.get("/feedback", async (req, res) => {
-      const cursor = feedbackCollection.find({});
+      const cursor = feedbackCollection.find().sort({ _id: -1 });
       const result = await cursor.toArray();
       res.send(result);
     });
