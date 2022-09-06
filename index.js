@@ -42,6 +42,14 @@ async function run() {
       res.json(biodata);
     });
 
+    app.get("/proposal/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const cursor = contactCollection.find(query);
+      const proposal = await cursor.toArray();
+      res.json(proposal);
+    });
+
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
